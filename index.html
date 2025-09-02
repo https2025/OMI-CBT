@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMI-CBT - Online Madrasah Computer-Based Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004499;
+            --accent-color: #ff9900;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info span {
+            margin-right: 15px;
+        }
+        
+        .user-info button {
+            background-color: transparent;
+            border: 1px solid var(--white);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .user-info button:hover {
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
+        
+        /* Login Page */
+        .login-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0, 102, 204, 0.8), rgba(0, 102, 204, 0.8)), url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80') no-repeat center center/cover;
+        }
+        
+        .login-form {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem 0;
+        }
+        
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-header p {
+            color: #666;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+        
+        .stat-icon.blue {
+            background-color: var(--primary-color);
+        }
+        
+        .stat-icon.green {
+            background-color: var(--success-color);
+        }
+        
+        .stat-icon.orange {
+            background-color: var(--accent-color);
+        }
+        
+        .stat-icon.red {
+            background-color: var(--danger-color);
+        }
+        
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .content-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .table th {
+            background-color: var(--light-bg);
+            font-weight: 600;
+        }
+        
+        .table tr:hover {
+            background-color: rgba(0, 102, 204, 0.05);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-warning {
+            background-color: rgba(255, 153, 0, 0.1);
+            color: var(--accent-color);
+        }
+        
+        .badge-danger {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        /* Exam Interface */
+        .exam-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .exam-header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .exam-timer {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .exam-timer i {
+            margin-right: 0.5rem;
+        }
+        
+        .exam-content {
+            padding: 1.5rem;
+        }
+        
+        .question-container {
+            margin-bottom: 2rem;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .options {
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background-color: rgba(0, 102, 204, 0.05);
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+        }
+        
+        .exam-navigation {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+        
+        .question-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .question-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            background-color: var(--white);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .question-btn:hover {
+            background-color: rgba(0, 102, 204, 0.1);
+        }
+        
+        .question-btn.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+        
+        .question-btn.answered {
+            background-color: var(--success-color);
+            color: var(--white);
+            border-color: var(--success-color);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h2 {
+            color: var(--primary-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .table {
+                font-size: 0.9rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-form">
+            <h2><i class="fas fa-graduation-cap"></i> OMI-CBT</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: #666;">Online Madrasah Computer-Based Test</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Masukkan username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Masukkan password" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Login Sebagai</label>
+                    <select id="role" required>
+                        <option value="">Pilih Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="guru">Guru</option>
+                        <option value="siswa">Siswa</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-block">Login</button>
+            </form>
+            <div style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                <p>Demo: admin/admin123, guru/guru123, siswa/siswa123</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>OMI-CBT</span>
+                    </div>
+                    <div class="user-info">
+                        <span id="welcomeText">Selamat Datang</span>
+                        <button id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 id="dashboardTitle">Dashboard</h1>
+                    <p id="dashboardSubtitle">Selamat datang di sistem OMI-CBT</p>
+                </div>
+
+                <!-- Admin Dashboard -->
+                <div id="adminDashboard" class="dashboard-content hidden">
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>150</h3>
+                                <p>Total Pengguna</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>45</h3>
+                                <p>Total Soal</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>12</h3>
+                                <p>Total Ujian</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>85%</h3>
+                                <p>Tingkat Kelulusan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Pengguna Terdaftar</h2>
+                            <button class="btn" id="addUserBtn">Tambah Pengguna</button>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>guru001</td>
+                                    <td>Guru</td>
+                                    <td><span class="badge badge-success">Aktif</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>siswa001</td>
+                                    <td>Siswa</td>
+                                    <td><span class="badge badge-success">Aktif</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>siswa002</td>
+                                    <td>Siswa</td>
+                                    <td><span class="badge badge-warning">Nonaktif</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Ujian Aktif</h2>
+                            <button class="btn" id="addExamBtn">Buat Ujian</button>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Ujian</th>
+                                    <th>Tanggal</th>
+                                    <th>Durasi</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Ujian Tengah Semester Ganjil</td>
+                                    <td>25 Sep 2023</td>
+                                    <td>90 menit</td>
+                                    <td><span class="badge badge-success">Aktif</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Detail</button>
+                                            <button class="btn btn-sm">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Try Out UAMBN</td>
+                                    <td>30 Sep 2023</td>
+                                    <td>120 menit</td>
+                                    <td><span class="badge badge-warning">Draft</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Detail</button>
+                                            <button class="btn btn-sm">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Guru Dashboard -->
+                <div id="guruDashboard" class="dashboard-content hidden">
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>25</h3>
+                                <p>Soal Saya</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>5</h3>
+                                <p>Ujian Saya</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>75</h3>
+                                <p>Peserta Ujian</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>78.5</h3>
+                                <p>Nilai Rata-rata</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Bank Soal</h2>
+                            <button class="btn" id="addQuestionBtn">Tambah Soal</button>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Pertanyaan</th>
+                                    <th>Mata Pelajaran</th>
+                                    <th>Tingkat Kesulitan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Apa fungsi utama dari RAM dalam komputer?</td>
+                                    <td>Teknologi Informasi</td>
+                                    <td><span class="badge badge-success">Mudah</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Jelaskan perbedaan antara LAN dan WAN!</td>
+                                    <td>Teknologi Informasi</td>
+                                    <td><span class="badge badge-warning">Sedang</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Apa yang dimaksud dengan enkripsi data?</td>
+                                    <td>Teknologi Informasi</td>
+                                    <td><span class="badge badge-danger">Sulit</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Hapus</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Ujian Saya</h2>
+                            <button class="btn" id="createExamBtn">Buat Ujian Baru</button>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Ujian</th>
+                                    <th>Tanggal</th>
+                                    <th>Jumlah Peserta</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Ujian Harian Jaringan Komputer</td>
+                                    <td>20 Sep 2023</td>
+                                    <td>25</td>
+                                    <td><span class="badge badge-success">Selesai</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Detail</button>
+                                            <button class="btn btn-sm">Hasil</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Ujian Tengah Semester</td>
+                                    <td>25 Sep 2023</td>
+                                    <td>30</td>
+                                    <td><span class="badge badge-warning">Aktif</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm">Detail</button>
+                                            <button class="btn btn-sm">Monitor</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Siswa Dashboard -->
+                <div id="siswaDashboard" class="dashboard-content hidden">
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>3</h3>
+                                <p>Ujian Tersedia</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>5</h3>
+                                <p>Ujian Selesai</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>85.5</h3>
+                                <p>Nilai Tertinggi</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon red">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>78.2</h3>
+                                <p>Nilai Rata-rata</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Ujian Tersedia</h2>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Ujian</th>
+                                    <th>Mata Pelajaran</th>
+                                    <th>Tanggal</th>
+                                    <th>Durasi</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Ujian Tengah Semester Ganjil</td>
+                                    <td>Teknologi Informasi</td>
+                                    <td>25 Sep 2023</td>
+                                    <td>90 menit</td>
+                                    <td><span class="badge badge-success">Tersedia</span></td>
+                                    <td>
+                                        <button class="btn btn-sm" onclick="startExam()">Kerjakan</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Try Out UAMBN</td>
+                                    <td>Keagamaan</td>
+                                    <td>30 Sep 2023</td>
+                                    <td>120 menit</td>
+                                    <td><span class="badge badge-warning">Akan Datang</span></td>
+                                    <td>
+                                        <button class="btn btn-sm" disabled>Belum Tersedia</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Ujian Harian Basis Data</td>
+                                    <td>Teknologi Informasi</td>
+                                    <td>28 Sep 2023</td>
+                                    <td>60 menit</td>
+                                    <td><span class="badge badge-success">Tersedia</span></td>
+                                    <td>
+                                        <button class="btn btn-sm" onclick="startExam()">Kerjakan</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="content-section">
+                        <div class="section-header">
+                            <h2>Riwayat Ujian</h2>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Ujian</th>
+                                    <th>Tanggal</th>
+                                    <th>Nilai</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Ujian Harian Jaringan Komputer</td>
+                                    <td>20 Sep 2023</td>
+                                    <td>85</td>
+                                    <td><span class="badge badge-success">Lulus</span></td>
+                                    <td>
+                                        <button class="btn btn-sm">Detail</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Ujian Harian Sistem Operasi</td>
+                                    <td>15 Sep 2023</td>
+                                    <td>78</td>
+                                    <td><span class="badge badge-success">Lulus</span></td>
+                                    <td>
+                                        <button class="btn btn-sm">Detail</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Ujian Harian Perakitan Komputer</td>
+                                    <td>10 Sep 2023</td>
+                                    <td>92</td>
+                                    <td><span class="badge badge-success">Lulus</span></td>
+                                    <td>
+                                        <button class="btn btn-sm">Detail</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Interface -->
+    <div id="examInterface" class="hidden">
+        <div class="exam-container">
+            <div class="exam-header">
+                <div>
+                    <h3>Ujian Tengah Semester Ganjil</h3>
+                    <p>Teknologi Informasi dan Komunikasi</p>
+                </div>
+                <div class="exam-timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="timer">89:45</span>
+                </div>
+            </div>
+            
+            <div class="exam-content">
+                <div class="question-nav" id="questionNav">
+                    <!-- Question navigation buttons will be generated by JavaScript -->
+                </div>
+                
+                <div class="question-container" id="questionContainer">
+                    <!-- Question content will be generated by JavaScript -->
+                </div>
+                
+                <div class="exam-navigation">
+                    <button class="btn" id="prevBtn" onclick="previousQuestion()">Sebelumnya</button>
+                    <button class="btn btn-success" id="nextBtn" onclick="nextQuestion()">Selanjutnya</button>
+                    <button class="btn btn-danger" id="finishBtn" onclick="finishExam()">Selesai</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-header">
+                <h2 id="modalTitle">Modal Title</h2>
+            </div>
+            <div id="modalBody">
+                <!-- Modal content will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const users = [
+            { username: 'admin', password: 'admin123', role: 'admin', name: 'Administrator' },
+            { username: 'guru', password: 'guru123', role: 'guru', name: 'Budi Santoso, S.Kom' },
+            { username: 'siswa', password: 'siswa123', role: 'siswa', name: 'Ahmad Leon' }
+        ];
+
+        const questions = [
+            {
+                id: 1,
+                question: "Apa fungsi utama dari RAM dalam komputer?",
+                options: [
+                    "Menyimpan data secara permanen",
+                    "Menyimpan data sementara saat komputer menyala",
+                    "Memproses data",
+                    "Menampilkan output ke layar"
+                ],
+                correctAnswer: 1
+            },
+            {
+                id: 2,
+                question: "Jelaskan perbedaan antara LAN dan WAN!",
+                options: [
+                    "LAN lebih cepat dari WAN",
+                    "LAN mencakup area geografis yang lebih luas",
+                    "LAN menggunakan kabel sedangkan WAN menggunakan wireless",
+                    "LAN untuk jaringan lokal, WAN untuk jaringan yang lebih luas"
+                ],
+                correctAnswer: 3
+            },
+            {
+                id: 3,
+                question: "Apa yang dimaksud dengan enkripsi data?",
+                options: [
+                    "Proses menghapus data",
+                    "Proses mengompres data",
+                    "Proses mengamankan data dengan mengubahnya menjadi kode",
+                    "Proses memindahkan data"
+                ],
+                correctAnswer: 2
+            },
+            {
+                id: 4,
+                question: "Manakah yang bukan termasuk perangkat input?",
+                options: [
+                    "Keyboard",
+                    "Mouse",
+                    "Scanner",
+                    "Monitor"
+                ],
+                correctAnswer: 3
+            },
+            {
+                id: 5,
+                question: "Apa kepanjangan dari CPU?",
+                options: [
+                    "Central Processing Unit",
+                    "Computer Personal Unit",
+                    "Central Program Unit",
+                    "Computer Processing Unit"
+                ],
+                correctAnswer: 0
+            }
+        ];
+
+        // Global variables
+        let currentUser = null;
+        let currentQuestion = 0;
+        let userAnswers = {};
+        let examTimer = null;
+        let timeRemaining = 5400; // 90 minutes in seconds
+
+        // DOM elements
+        const loginPage = document.getElementById('loginPage');
+        const mainApp = document.getElementById('mainApp');
+        const examInterface = document.getElementById('examInterface');
+        const loginForm = document.getElementById('loginForm');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const welcomeText = document.getElementById('welcomeText');
+        const dashboardTitle = document.getElementById('dashboardTitle');
+        const dashboardSubtitle = document.getElementById('dashboardSubtitle');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const guruDashboard = document.getElementById('guruDashboard');
+        const siswaDashboard = document.getElementById('siswaDashboard');
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalClose = document.getElementById('modalClose');
+
+        // Login functionality
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            
+            // Find user
+            const user = users.find(u => u.username === username && u.password === password && u.role === role);
+            
+            if (user) {
+                currentUser = user;
+                showDashboard();
+            } else {
+                alert('Username atau password salah!');
+            }
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', function() {
+            currentUser = null;
+            loginPage.classList.remove('hidden');
+            mainApp.classList.add('hidden');
+            examInterface.classList.add('hidden');
+            loginForm.reset();
+        });
+
+        // Show dashboard based on user role
+        function showDashboard() {
+            loginPage.classList.add('hidden');
+            mainApp.classList.remove('hidden');
+            
+            welcomeText.textContent = `Selamat Datang, ${currentUser.name}`;
+            
+            // Hide all dashboards
+            adminDashboard.classList.add('hidden');
+            guruDashboard.classList.add('hidden');
+            siswaDashboard.classList.add('hidden');
+            
+            // Show appropriate dashboard
+            switch(currentUser.role) {
+                case 'admin':
+                    dashboardTitle.textContent = 'Dashboard Admin';
+                    dashboardSubtitle.textContent = 'Kelola pengguna, ujian, dan sistem';
+                    adminDashboard.classList.remove('hidden');
+                    break;
+                case 'guru':
+                    dashboardTitle.textContent = 'Dashboard Guru';
+                    dashboardSubtitle.textContent = 'Kelola soal dan ujian';
+                    guruDashboard.classList.remove('hidden');
+                    break;
+                case 'siswa':
+                    dashboardTitle.textContent = 'Dashboard Siswa';
+                    dashboardSubtitle.textContent = 'Kerjakan ujian dan lihat hasil';
+                    siswaDashboard.classList.remove('hidden');
+                    break;
+            }
+        }
+
+        // Start exam
+        function startExam() {
+            mainApp.classList.add('hidden');
+            examInterface.classList.remove('hidden');
+            
+            // Initialize exam
+            currentQuestion = 0;
+            userAnswers = {};
+            timeRemaining = 5400; // Reset timer
+            
+            // Generate question navigation
+            generateQuestionNav();
+            
+            // Show first question
+            showQuestion(0);
+            
+            // Start timer
+            startExamTimer();
+        }
+
+        // Generate question navigation
+        function generateQuestionNav() {
+            const questionNav = document.getElementById('questionNav');
+            questionNav.innerHTML = '';
+            
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.className = 'question-btn';
+                button.textContent = i + 1;
+                button.onclick = () => showQuestion(i);
+                questionNav.appendChild(button);
+            }
+        }
+
+        // Show question
+        function showQuestion(index) {
+            currentQuestion = index;
+            const question = questions[index];
+            
+            const questionContainer = document.getElementById('questionContainer');
+            questionContainer.innerHTML = `
+                <div class="question-number">Pertanyaan ${index + 1}</div>
+                <div class="question-text">${question.question}</div>
+                <div class="options">
+                    ${question.options.map((option, i) => `
+                        <div class="option">
+                            <input type="radio" id="option${i}" name="answer" value="${i}" ${userAnswers[index] === i ? 'checked' : ''}>
+                            <label for="option${i}">${option}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Add event listeners to options
+            const options = questionContainer.querySelectorAll('input[type="radio"]');
+            options.forEach(option => {
+                option.addEventListener('change', function() {
+                    userAnswers[index] = parseInt(this.value);
+                    updateQuestionNav();
+                });
+            });
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+            
+            // Update question navigation
+            updateQuestionNav();
+        }
+
+        // Update question navigation
+        function updateQuestionNav() {
+            const questionNav = document.getElementById('questionNav');
+            const buttons = questionNav.querySelectorAll('.question-btn');
+            
+            buttons.forEach((button, index) => {
+                button.classList.remove('active', 'answered');
+                
+                if (index === currentQuestion) {
+                    button.classList.add('active');
+                }
+                
+                if (userAnswers[index] !== undefined) {
+                    button.classList.add('answered');
+                }
+            });
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const finishBtn = document.getElementById('finishBtn');
+            
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.style.display = 'none';
+                finishBtn.style.display = 'inline-block';
+            } else {
+                nextBtn.style.display = 'inline-block';
+                finishBtn.style.display = 'none';
+            }
+        }
+
+        // Previous question
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                showQuestion(currentQuestion - 1);
+            }
+        }
+
+        // Next question
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                showQuestion(currentQuestion + 1);
+            }
+        }
+
+        // Start exam timer
+        function startExamTimer() {
+            examTimer = setInterval(() => {
+                timeRemaining--;
+                
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeRemaining <= 0) {
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        // Finish exam
+        function finishExam() {
+            clearInterval(examTimer);
+            
+            // Calculate score
+            let correctAnswers = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] === questions[i].correctAnswer) {
+                    correctAnswers++;
+                }
+            }
+            
+            const score = Math.round((correctAnswers / questions.length) * 100);
+            
+            // Show result
+            modalTitle.textContent = 'Hasil Ujian';
+            modalBody.innerHTML = `
+                <div style="text-align: center; padding: 1rem;">
+                    <h3>Ujian Selesai!</h3>
+                    <p>Anda telah menyelesaikan ujian dengan hasil:</p>
+                    <div style="font-size: 3rem; font-weight: bold; color: var(--primary-color); margin: 1rem 0;">
+                        ${score}
+                    </div>
+                    <p>Jawaban Benar: ${correctAnswers} dari ${questions.length} soal</p>
+                    <button class="btn" onclick="closeModalAndReturnToDashboard()">Kembali ke Dashboard</button>
+                </div>
+            `;
+            modal.classList.add('active');
+        }
+
+        // Close modal and return to dashboard
+        function closeModalAndReturnToDashboard() {
+            modal.classList.remove('active');
+            examInterface.classList.add('hidden');
+            mainApp.classList.remove('hidden');
+        }
+
+        // Modal close event
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Modal close when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Add user button
+        document.getElementById('addUserBtn')?.addEventListener('click', () => {
+            modalTitle.textContent = 'Tambah Pengguna';
+            modalBody.innerHTML = `
+                <form id="addUserForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select required>
+                            <option value="">Pilih Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="guru">Guru</option>
+                            <option value="siswa">Siswa</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button type="button" class="btn" onclick="modal.classList.remove('active')">Batal</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('active');
+            
+            // Handle form submission
+            document.getElementById('addUserForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Pengguna berhasil ditambahkan!');
+                modal.classList.remove('active');
+            });
+        });
+
+        // Add exam button
+        document.getElementById('addExamBtn')?.addEventListener('click', () => {
+            modalTitle.textContent = 'Buat Ujian Baru';
+            modalBody.innerHTML = `
+                <form id="addExamForm">
+                    <div class="form-group">
+                        <label>Nama Ujian</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mata Pelajaran</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Durasi (menit)</label>
+                        <input type="number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jumlah Soal</label>
+                        <input type="number" required>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button type="button" class="btn" onclick="modal.classList.remove('active')">Batal</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('active');
+            
+            // Handle form submission
+            document.getElementById('addExamForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Ujian berhasil dibuat!');
+                modal.classList.remove('active');
+            });
+        });
+
+        // Add question button
+        document.getElementById('addQuestionBtn')?.addEventListener('click', () => {
+            modalTitle.textContent = 'Tambah Soal Baru';
+            modalBody.innerHTML = `
+                <form id="addQuestionForm">
+                    <div class="form-group">
+                        <label>Pertanyaan</label>
+                        <textarea required rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Opsi A</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Opsi B</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Opsi C</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Opsi D</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jawaban Benar</label>
+                        <select required>
+                            <option value="">Pilih Jawaban</option>
+                            <option value="0">A</option>
+                            <option value="1">B</option>
+                            <option value="2">C</option>
+                            <option value="3">D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mata Pelajaran</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tingkat Kesulitan</label>
+                        <select required>
+                            <option value="">Pilih Tingkat</option>
+                            <option value="mudah">Mudah</option>
+                            <option value="sedang">Sedang</option>
+                            <option value="sulit">Sulit</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button type="button" class="btn" onclick="modal.classList.remove('active')">Batal</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('active');
+            
+            // Handle form submission
+            document.getElementById('addQuestionForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Soal berhasil ditambahkan!');
+                modal.classList.remove('active');
+            });
+        });
+
+        // Create exam button
+        document.getElementById('createExamBtn')?.addEventListener('click', () => {
+            modalTitle.textContent = 'Buat Ujian Baru';
+            modalBody.innerHTML = `
+                <form id="createExamForm">
+                    <div class="form-group">
+                        <label>Nama Ujian</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mata Pelajaran</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Durasi (menit)</label>
+                        <input type="number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pilih Soal dari Bank Soal</label>
+                        <div style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-color); padding: 0.5rem; border-radius: 5px;">
+                            <label style="display: block; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Apa fungsi utama dari RAM dalam komputer?
+                            </label>
+                            <label style="display: block; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Jelaskan perbedaan antara LAN dan WAN!
+                            </label>
+                            <label style="display: block; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Apa yang dimaksud dengan enkripsi data?
+                            </label>
+                            <label style="display: block; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Manakah yang bukan termasuk perangkat input?
+                            </label>
+                            <label style="display: block; margin-bottom: 0.5rem;">
+                                <input type="checkbox"> Apa kepanjangan dari CPU?
+                            </label>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button type="button" class="btn" onclick="modal.classList.remove('active')">Batal</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </form>
+            `;
+            modal.classList.add('active');
+            
+            // Handle form submission
+            document.getElementById('createExamForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Ujian berhasil dibuat!');
+                modal.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
